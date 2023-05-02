@@ -23,3 +23,4 @@ describe('IconsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+

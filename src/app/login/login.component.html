@@ -16,6 +16,7 @@
 			<input type="email" placeholder="Email" name="email" ngModel/>
 			<input type="password" placeholder="Password" name="password" ngModel/>
 			<a href="#">Forgot your password?</a>
+			<div *ngIf="loginFailed">Login failed. Please try again.</div>
 			<button>Sign In</button>
 		</form>
 	</div>

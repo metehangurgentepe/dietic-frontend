@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './login/login.component';
+import { FoodService } from './services/foods.service';
 
 @NgModule({
   imports: [
@@ -31,7 +32,7 @@ import { LoginComponent } from './login/login.component';
     LoginComponent
 
   ],
-  providers: [],
+  providers: [FoodService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

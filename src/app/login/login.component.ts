@@ -1,48 +1,82 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { post } from 'jquery';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
+
+
 export class LoginComponent implements OnInit {
-  constructor(private http: HttpClient,private router: Router) { 
+  loginFailed = false;
+  responseDataRegister: any;
+  responseDataLogin: any;
+  
+  private cookie_name='';
+ private all_cookies:any='';
+  constructor(private http: HttpClient,private router: Router,private cookie:CookieService) { 
   }
   headers= new HttpHeaders()
   .set('content-type', 'application/json')
   .set('Access-Control-Allow-Origin', '*');
 
+
+  configUrl = 'assets/config.json';
+
+
   onRegister(person:{firstName:string,lastName:string,email:string,password:string}){
     console.log(person);
     const jsonString=JSON.stringify(person);
+   
     console.log(jsonString);
     try{
       this.http.post('http://localhost:8080/api/v1/auth/register',JSON.stringify(person),{headers:this.headers}).subscribe((response)=>{
         console.log(response);
+          this.responseDataRegister = response;
         if(response =! null){
+          sessionStorage.setItem('email', person.email);
+          sessionStorage.setItem('firstName', person.firstName);
+          sessionStorage.setItem('lastName', person.lastName);
+          console.log(this.responseDataRegister.token);
+          sessionStorage.setItem('token', this.responseDataRegister.token);
         this.router.navigate(['dashboard']);}
         });
     }
+    
     catch(err){
       console.log(err.name)
     }
     
   }
   onLogin(person:{email:string,password:string}){
-    try{
     console.log(person);
     this.http.post('http://localhost:8080/api/v1/auth/authenticate',JSON.stringify(person),{headers:this.headers}).subscribe((response)=>{
+      this.responseDataLogin = response;
       console.log(response);
+      console.log(this.responseDataLogin.token);
+      try{
       if(response =! null){
+        sessionStorage.setItem('email', person.email);
+        sessionStorage.setItem('firstname', this.responseDataLogin.firstName);
+        sessionStorage.setItem('lastname', this.responseDataLogin.lastName);
+        sessionStorage.setItem('token', this.responseDataLogin.token);
         this.router.navigate(['dashboard']);
       }
+      else if(response==null){
+        this.loginFailed = true;
+      }
+    }
+      catch(err){
+        this.loginFailed = true;
+        console.log(this.loginFailed);
+      }
+      
     });
-  }
-  catch(err){
-    console.log(err.name);
-  }
+  
 }
   
 
@@ -68,14 +102,6 @@ signInButton.addEventListener('click', () => {
 //   this. = data.id;
 // })
  
-
-
-
-
-
-
+}
 }
 
-
-
-}
