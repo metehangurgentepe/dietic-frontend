@@ -24,7 +24,7 @@ export class UserProfileComponent implements OnInit {
     .set('content-type', 'application/json')
     .set('Access-Control-Allow-Origin', '*');
 
-  onPatientRegister(person: { name: string, surname: string, email: string, password: string, roleName: string, dietitianId: number }) {
+  onPatientRegister(person: { name: string, surname: string, email: string, password: string, roleName: string, dietitianId: number,height:number,weight:number,about:string,bodyFat:number }) {
     console.log(person);
     const jsonString = JSON.stringify(person);
     const DietitianId = sessionStorage.getItem('dietitianId');
