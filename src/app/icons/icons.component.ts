@@ -1,10 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ViewChild, ElementRef} from "@angular/core";
+import { ViewChild, ElementRef } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
 import { of } from "rxjs";
 import { FoodService } from '../services/foods.service';
 import { ApiService } from '../services/api.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-icons',
@@ -13,100 +14,175 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class IconsComponent implements OnInit {
   selectedOption: string;
-  options = ['Kahvaltı', 'Öğlen', 'Akşam'];
-  patientsArray = [];
+  options = ['Kahvaltı', 'Öğlen', 'Akşam', 'Snack'];
   patientsId = [];
   searchText;
   foods = [];
   meals = [];
-  kahvaltiArr=[];
-  oglenArr=[];
-  aksamArr=[];
-  kahvalti= new Map<number, any[]>();
-  öglen=new Map<number, any[]>();
-  aksam=new Map<number, any[]>();
-  dietPlan=[];
+  kahvaltiArr = [];
+  oglenArr = [];
+  aksamArr = [];
+  snackArr = [];
+  dietPlan = [];
+  day = ['1', '2', '3', '4', '5', '6', '7'];
+  patientsArray=[];
+  selectedPatients!: number;
+  patientId!: number;
+  postUrl:string;
+   
 
-  constructor(private foodService:FoodService,private http: HttpClient){
 
-  }
 
+
+  constructor(private foodService: FoodService, private http: HttpClient) { }
+  token = sessionStorage.getItem("token");
+  dietitianId = sessionStorage.getItem("dietitianId");
   data: any[];
-  Patients:any;
-
+  Patients: any;
   ngOnInit() {
     var token = sessionStorage.getItem("token");
     console.log(token);
-    this.getData().subscribe(Patients => {
-      this.Patients = Patients;
-      console.log('patientslar burada')
-      console.log(this.Patients);
-      this.Patients.forEach(element => {
-        this.patientsArray.push(element.name+' '+element.surname)
-        this.patientsId.push(element.patient_id)
-      });
-    });
+    this.getData().subscribe(
+      Patients => {
+        this.Patients = Patients;
+        this.patientsArray = [];
+        for(let i = 0; i < this.Patients.length; i++) {
+          const patient = this.Patients[i];
+          const label = `${patient.name} ${patient.surname}`;
+          const value = patient.patient_id;
+          const option = { label, value };
+          this.patientsArray.push(option);
+        }
+        console.log(this.selectedPatients);
+        console.log('patientsArray:');
+        console.log(this.patientsArray);
+      },
+      error => {
+        console.log('Error retrieving patient data:');
+        console.log(error);
+      }
+    );
   }
 
-   getFoods(event){
+  getFoods(event) {
     const foods = event.target.value;
-     this.foodService.buscarFilme(foods).then(res => {
-       console.log(res);
-       this.foods = res['results'];
-       this.meals=res;
-     });
-   }
-   getRowData(food) {
+    this.foodService.buscarFilme(foods).then(res => {
+      console.log(res);
+      this.foods = res['results'];
+      this.meals = res;
+    });
+  }
+  getRowData(food) {
     this.dietPlan.push(food);
     console.log(food); // do something with the row data
     console.log('seçilmiş öğün');
-    if(this.selectedOption=='Kahvaltı'){
-    this.kahvaltiArr.push(food);
-
-    this.kahvalti.set(0,this.kahvaltiArr);
-    console.log('kahvaltı burada');
-    console.log(this.kahvalti);
-    console.log('********');
+    if (this.selectedOption == 'Kahvaltı') {
+      this.kahvaltiArr.push(food);
     }
-  else if(this.selectedOption=='Öğlen'){
-    this.oglenArr.push(food);
-      this.öglen.set(1,this.oglenArr);
-      console.log(this.oglenArr);
-      console.log('öğlen burada');
-      console.log(this.öglen);
-      console.log('********');
+    else if (this.selectedOption == 'Öğlen') {
+      this.oglenArr.push(food);
     }
-  else if(this.selectedOption=='Akşam'){
+    else if (this.selectedOption == 'Akşam') {
       this.aksamArr.push(food);
-      this.aksam.set(2,this.aksamArr);
-      console.log('akşam burada');
-      console.log(this.aksam);
-      console.log('********');
-      
-          }
-          const postData = {
-            array1: this.kahvaltiArr,
-            array2: this.oglenArr,
-            array3: this.aksamArr,
-            date: Date.now().toString,
-            id: 32
-          };
-          let jsonString = JSON.stringify(postData);
-          console.log('---------');
-          console.log(jsonString);
-          console.log('---------');
+    }
+    else if (this.selectedOption == 'Snack') {
+      this.snackArr.push(food);
+    }
+  }
+  onPatientSelect(event) {
+    this.selectedPatients = event.target.value;
+    this.patientId=this.selectedPatients;
+    console.log('Selected patient:', this.selectedPatients);
+    this.postUrl = 'http://localhost:8080/api/v1/dietPlans/' + this.dietitianId + '/'+this.patientId;
 
   }
-  private apiUrl = 'http://localhost:8080/api/v1/dietitians/patients';
-  token = sessionStorage.getItem("token");
+  
+  //private postUrl = 'http://localhost:8080/api/v1/dietPlans/' + this.dietitianId + '/'+this.patientId;
+  
   headers = new HttpHeaders()
     .set('content-type', 'application/json')
-    .set('Authorization' , 'Bearer '+this.token)
+    .set('Authorization', 'Bearer ' + this.token)
     .set('Access-Control-Allow-Origin', '*');
-  getData() {
-    return this.http.get(this.apiUrl,{headers:this.headers});
+    
+  dietPlans = {
+    food_id: null,
+    day: null,
+    meal: null
   }
-   
+  postData() {
+    for(let i=0;i<this.kahvaltiArr.length;i++){
+        this.dietPlans = {
+          day: '1',
+          meal: '1',
+          food_id: this.kahvaltiArr[i].food_id
+        }
+       this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
+        console.log(response);
+        // handle response
+      }, error => {
+        console.error(error);
+        // handle error
+      });
+    }
+    for(let i=0;i<this.oglenArr.length;i++){
+      this.dietPlans = {
+        day: '1',
+        meal: '2',
+        food_id: this.oglenArr[i].food_id
+      }
+       this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
+        console.log(response);
+        // handle response
+      }, error => {
+        console.error(error);
+        // handle error
+      });
+
+    }
+    for(let i=0;i<this.aksamArr.length;i++){
+        this.dietPlans = {
+          day: '1',
+          meal: '3',
+          food_id: this.aksamArr[i].food_id
+        }
+      
+  
+       this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
+        console.log(response);
+        // handle response
+      }, error => {
+        console.error(error);
+        // handle error
+      });
+
+    }
+    for(let i=0;i<this.snackArr.length;i++){
+        this.dietPlans = {
+          day: '1',
+          meal: '4',
+          food_id: this.snackArr[i].food_id
+        }
+      
+  
+       this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
+        console.log(response);
+        // handle response
+      }, error => {
+        console.error(error);
+        // handle error
+      });
+
+    }
+  }
+
+
+
+  //hastaları çekme api si
+  private apiUrl = 'http://localhost:8080/api/v1/dietitians/patients';
+  getData() {
+    return this.http.get(this.apiUrl, { headers: this.headers });
+  }
+
 
   onOptionSelected() {
     // console.log(this.selectedOption);
@@ -117,8 +193,8 @@ export class IconsComponent implements OnInit {
     //   console.log(this.kahvalti);
     //   console.log('********');
     // }
-    
-    
+
+
     // if(this.selectedOption=='Öğlen'){
     //   this.öglen.set(0,this.dietPlan);
     //   console.log('öğlen burada');
@@ -133,7 +209,7 @@ export class IconsComponent implements OnInit {
     //   console.log('********');
     // }
   }
-  
+
   //  postData = {
   //   name:'ali akar',
   //   date: Date.now().toString,
@@ -147,9 +223,9 @@ export class IconsComponent implements OnInit {
   //   return jsonString;
   // }  
   
-  
-  
 
-  
+
+
+
 }
 
