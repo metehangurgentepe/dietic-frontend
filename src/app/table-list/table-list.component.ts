@@ -16,7 +16,6 @@ export class TableListComponent implements OnInit {
       this.getData().subscribe(data => {
         this.data = data;
       });
-    
   }
   private apiUrl = 'http://localhost:8080/api/v1/dietitians/patients';
   token = sessionStorage.getItem("token");
@@ -27,4 +26,9 @@ export class TableListComponent implements OnInit {
   getData() {
     return this.http.get(this.apiUrl,{headers:this.headers});
   }
+  // openPopup() {
+  //   const dialogRef = this.dialog.open(PopupComponent, {
+  //     width: '500px'
+  //   });
+  // }
 }

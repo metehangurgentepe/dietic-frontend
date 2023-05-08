@@ -26,6 +26,12 @@
                 <th class="text-right">
                   Height
                 </th>
+                <th class="text-right">
+                  Body Fat
+                </th>
+                <th class="text-right">
+                  About
+                </th>
               </thead>
               <tbody>
                 <tr *ngFor="let patient of data">
@@ -42,10 +48,19 @@
                     {{ patient.weight }}
                   </td>
                   <td class="text-right">
+                    {{ patient.weight }}
+                  </td>
+                  <td class="text-right">
                     {{ patient.height }}
                   </td>
                   <td class="text-right">
-                    <button>Update Patient</button>
+                    {{ patient.bodyFat }}
+                  </td>
+                  <td class="text-right">
+                    {{ patient.about }}
+                  </td>
+                  <td class="text-right">
+                    <button (click)="openPopup()">Update Patient</button>
                   </td>
                 </tr>
               </tbody>

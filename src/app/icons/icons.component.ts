@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from "rxjs";
 import { FoodService } from '../services/foods.service';
 import { ApiService } from '../services/api.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-icons',
@@ -13,7 +14,8 @@ import { ApiService } from '../services/api.service';
 export class IconsComponent implements OnInit {
   selectedOption: string;
   options = ['Kahvaltı', 'Öğlen', 'Akşam'];
-  patients = ['Ali Akar', 'Mustafa Bebe', 'Ece Güler'];
+  patientsArray = [];
+  patientsId = [];
   searchText;
   foods = [];
   meals = [];
@@ -25,16 +27,25 @@ export class IconsComponent implements OnInit {
   aksam=new Map<number, any[]>();
   dietPlan=[];
 
-  constructor(private foodService:FoodService){
+  constructor(private foodService:FoodService,private http: HttpClient){
 
   }
 
   data: any[];
+  Patients:any;
 
   ngOnInit() {
     var token = sessionStorage.getItem("token");
     console.log(token);
-  
+    this.getData().subscribe(Patients => {
+      this.Patients = Patients;
+      console.log('patientslar burada')
+      console.log(this.Patients);
+      this.Patients.forEach(element => {
+        this.patientsArray.push(element.name+' '+element.surname)
+        this.patientsId.push(element.patient_id)
+      });
+    });
   }
 
    getFoods(event){
@@ -85,6 +96,15 @@ export class IconsComponent implements OnInit {
           console.log(jsonString);
           console.log('---------');
 
+  }
+  private apiUrl = 'http://localhost:8080/api/v1/dietitians/patients';
+  token = sessionStorage.getItem("token");
+  headers = new HttpHeaders()
+    .set('content-type', 'application/json')
+    .set('Authorization' , 'Bearer '+this.token)
+    .set('Access-Control-Allow-Origin', '*');
+  getData() {
+    return this.http.get(this.apiUrl,{headers:this.headers});
   }
    
 
