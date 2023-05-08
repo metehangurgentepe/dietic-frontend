@@ -32,6 +32,8 @@ export class IconsComponent implements OnInit {
   data: any[];
 
   ngOnInit() {
+    var token = sessionStorage.getItem("token");
+    console.log(token);
   
   }
 

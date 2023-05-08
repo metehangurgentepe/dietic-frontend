@@ -3,9 +3,6 @@ import { HttpClient, HttpHeaders }from '@angular/common/http';
 
 @Injectable()
 export class ApiService {
-  
-
- 
   token = sessionStorage.getItem("token");
   url1:string;
   headers= new HttpHeaders()
@@ -13,9 +10,9 @@ export class ApiService {
   .set('Authorization' , 'Bearer '+this.token);
   constructor(private http:HttpClient) { 
     this.url1 = 'http://localhost:8080/api/v1/foods/search?query=';
-
   }
   getFoods(query:string):Promise<any>{
+    console.log(this.token);
     return this.http.get(this.url1 + query, {headers: this.headers}).toPromise();
   }
 }

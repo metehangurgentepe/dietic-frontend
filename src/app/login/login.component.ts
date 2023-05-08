@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
   onRegister(person:{firstName:string,lastName:string,email:string,password:string}){
     console.log(person);
     const jsonString=JSON.stringify(person);
-   
     console.log(jsonString);
     try{
       this.http.post('http://localhost:8080/api/v1/auth/register',JSON.stringify(person),{headers:this.headers}).subscribe((response)=>{
@@ -42,7 +41,7 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('firstName', person.firstName);
           sessionStorage.setItem('lastName', person.lastName);
           console.log(this.responseDataRegister.token);
-          sessionStorage.setItem('token', this.responseDataRegister.token);
+          sessionStorage.setItem('token', this.responseDataRegister.accessToken);
         this.router.navigate(['dashboard']);}
         });
     }
@@ -54,7 +53,7 @@ export class LoginComponent implements OnInit {
   }
   onLogin(person:{email:string,password:string}){
     console.log(person);
-    this.http.post('http://localhost:8080/api/v1/auth/authenticate',JSON.stringify(person),{headers:this.headers}).subscribe((response)=>{
+    this.http.post('http://localhost:8080/api/auth/login',JSON.stringify(person),{headers:this.headers}).subscribe((response)=>{
       this.responseDataLogin = response;
       console.log(response);
       console.log(this.responseDataLogin.token);
@@ -63,7 +62,9 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('email', person.email);
         sessionStorage.setItem('firstname', this.responseDataLogin.firstName);
         sessionStorage.setItem('lastname', this.responseDataLogin.lastName);
-        sessionStorage.setItem('token', this.responseDataLogin.token);
+        sessionStorage.setItem('token', this.responseDataLogin.accessToken);
+        console.log(this.responseDataLogin.dietitianId);
+        sessionStorage.setItem('dietitianId', this.responseDataLogin.id);
         this.router.navigate(['dashboard']);
       }
       else if(response==null){
