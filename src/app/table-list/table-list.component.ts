@@ -2,6 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { MatDialog } from '@angular/material/dialog';
+import { PatientModel } from '../models/patient_model';
+
+
 
 @Component({
   selector: 'app-table-list',
@@ -10,7 +14,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class TableListComponent implements OnInit {
 
-  constructor(private http: HttpClient, private router: Router, private cookie: CookieService) {}
+  constructor(private http: HttpClient, private router: Router, private cookie: CookieService,public dialog: MatDialog) {}
   data:any;
   ngOnInit() {
       this.getData().subscribe(data => {
@@ -26,9 +30,12 @@ export class TableListComponent implements OnInit {
   getData() {
     return this.http.get(this.apiUrl,{headers:this.headers});
   }
-  // openPopup() {
-  //   const dialogRef = this.dialog.open(PopupComponent, {
-  //     width: '500px'
-  //   });
-  // }
+  onButtonClick(patient: any) {
+    console.log(patient);
+    console.log('patient')
+    var patient1 = JSON.stringify(patient);
+
+    
+    this.router.navigate(['/new-page'], { queryParams: { data: patient1 } });
+  }
 }

@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './login/login.component';
 import { FoodService } from './services/foods.service';
+import { UpdatePatientComponents } from './update-patient/update.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { FoodService } from './services/foods.service';
     AppComponent,
     AdminLayoutComponent,
     LoginComponent,
+    UpdatePatientComponents
 
   ],
   providers: [FoodService],

@@ -22,4 +22,14 @@ describe('TableListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  function openPopup() {
+    // URL of the popup screen
+    var url = "https://www.example.com/popup.html";
+  
+    // Options for the popup screen
+    var options = "width=500,height=500,menubar=no,toolbar=no";
+  
+    // Open the popup screen
+    window.open(url, "Popup", options);
+  }
 });

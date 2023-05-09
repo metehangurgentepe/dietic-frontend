@@ -30,6 +30,9 @@
                   Body Fat
                 </th>
                 <th class="text-right">
+                  Age
+                </th>
+                <th class="text-right">
                   About
                 </th>
               </thead>
@@ -48,10 +51,10 @@
                     {{ patient.weight }}
                   </td>
                   <td class="text-right">
-                    {{ patient.weight }}
+                    {{ patient.height }}
                   </td>
                   <td class="text-right">
-                    {{ patient.height }}
+                    {{ patient.age }}
                   </td>
                   <td class="text-right">
                     {{ patient.bodyFat }}
@@ -60,7 +63,7 @@
                     {{ patient.about }}
                   </td>
                   <td class="text-right">
-                    <button (click)="openPopup()">Update Patient</button>
+                    <button (click)=onButtonClick(patient)>Update Patient</button>
                   </td>
                 </tr>
               </tbody>

@@ -5,8 +5,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './login/login.component';
+import { UpdatePatientComponents } from './update-patient/update.component';
 
 const routes: Routes =[
+  { path: 'new-page', component: UpdatePatientComponents },
   {
     path: '',
     redirectTo: 'dashboard',
