@@ -11,7 +11,7 @@ const routes: Routes =[
   { path: 'new-page', component: UpdatePatientComponents },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full',
   }, {
     path: '',
@@ -24,7 +24,8 @@ const routes: Routes =[
   {
     component: LoginComponent,
     path: 'login',
-  }
+  },
+
 ];
 
 @NgModule({

@@ -16,6 +16,12 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { LoginComponent } from './login/login.component';
 import { FoodService } from './services/foods.service';
 import { UpdatePatientComponents } from './update-patient/update.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
+
+
 
 @NgModule({
   imports: [
@@ -27,7 +33,10 @@ import { UpdatePatientComponents } from './update-patient/update.component';
     AppRoutingModule,
     NgbModule,
     ToastrModule.forRoot(),
-    MatDialogModule
+    MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDatepickerModule
   ],
   declarations: [
     AppComponent,

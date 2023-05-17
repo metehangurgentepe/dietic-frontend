@@ -13,6 +13,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./icons.component.css']
 })
 export class IconsComponent implements OnInit {
+  amount: string; // Initialize 'amount' as an empty string
+  detail: string; 
+  date: string; 
   selectedOption: string;
   options = ['Kahvaltı', 'Öğlen', 'Akşam', 'Snack'];
   patientsId = [];
@@ -23,13 +26,21 @@ export class IconsComponent implements OnInit {
   oglenArr = [];
   aksamArr = [];
   snackArr = [];
+  kahvaltiArrServ = [];
+  oglenArrServ = [];
+  aksamArrServ = [];
+  snackArrServ = [];
+  kahvaltiArrDet = [];
+  oglenArrDet = [];
+  aksamArrDet = [];
+  snackArrDet = [];
   dietPlan = [];
   day = ['1', '2', '3', '4', '5', '6', '7'];
-  patientsArray=[];
+  patientsArray = [];
   selectedPatients!: number;
   patientId!: number;
-  postUrl:string;
-   
+  postUrl: string;
+
 
 
 
@@ -46,16 +57,14 @@ export class IconsComponent implements OnInit {
       Patients => {
         this.Patients = Patients;
         this.patientsArray = [];
-        for(let i = 0; i < this.Patients.length; i++) {
+        for (let i = 0; i < this.Patients.length; i++) {
           const patient = this.Patients[i];
           const label = `${patient.name} ${patient.surname}`;
           const value = patient.patient_id;
           const option = { label, value };
           this.patientsArray.push(option);
+          console.log(this.detail);
         }
-        console.log(this.selectedPatients);
-        console.log('patientsArray:');
-        console.log(this.patientsArray);
       },
       error => {
         console.log('Error retrieving patient data:');
@@ -63,6 +72,7 @@ export class IconsComponent implements OnInit {
       }
     );
   }
+
 
   getFoods(event) {
     const foods = event.target.value;
@@ -72,65 +82,99 @@ export class IconsComponent implements OnInit {
       this.meals = res;
     });
   }
-  getRowData(food) {
+  
+  getRowData(food: any,amount:number,detail:string) {
+    if(detail==null && amount==null){
+      detail='detail'
+      amount=1
+    }
+    else if(amount==null){
+      console.log('bura')
+      amount=1
+    }
+    else if(detail==null){
+      console.log('bura')
+      detail='none'
+    }
     this.dietPlan.push(food);
-    console.log(food); // do something with the row data
-    console.log('seçilmiş öğün');
     if (this.selectedOption == 'Kahvaltı') {
       this.kahvaltiArr.push(food);
+      this.kahvaltiArrDet.push(detail);
+      this.kahvaltiArrServ.push(amount)
+      console.log(this.kahvaltiArrDet);
     }
     else if (this.selectedOption == 'Öğlen') {
       this.oglenArr.push(food);
+      this.oglenArrDet.push(detail);
+      this.oglenArrServ.push(amount)
     }
     else if (this.selectedOption == 'Akşam') {
       this.aksamArr.push(food);
+      this.aksamArrDet.push(detail);
+      this.aksamArrServ.push(amount)
     }
     else if (this.selectedOption == 'Snack') {
       this.snackArr.push(food);
+      this.snackArrDet.push(detail);
+      this.snackArrServ.push(amount)
     }
+  
   }
   onPatientSelect(event) {
     this.selectedPatients = event.target.value;
-    this.patientId=this.selectedPatients;
+    this.patientId = this.selectedPatients;
     console.log('Selected patient:', this.selectedPatients);
-    this.postUrl = 'http://localhost:8080/api/v1/dietPlans/' + this.dietitianId + '/'+this.patientId;
+    this.postUrl = 'http://localhost:8080/api/v1/dietPlans/' + this.dietitianId + '/' + this.patientId;
 
   }
-  
+
   //private postUrl = 'http://localhost:8080/api/v1/dietPlans/' + this.dietitianId + '/'+this.patientId;
-  
+
   headers = new HttpHeaders()
     .set('content-type', 'application/json')
     .set('Authorization', 'Bearer ' + this.token)
     .set('Access-Control-Allow-Origin', '*');
-    
+
   dietPlans = {
     food_id: null,
     day: null,
-    meal: null
+    meal: null,
+    portion: null,
+    details: null
   }
   postData() {
-    for(let i=0;i<this.kahvaltiArr.length;i++){
-        this.dietPlans = {
-          day: '1',
-          meal: '1',
-          food_id: this.kahvaltiArr[i].food_id
-        }
-       this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
-        console.log(response);
-        // handle response
-      }, error => {
-        console.error(error);
-        // handle error
-      });
-    }
-    for(let i=0;i<this.oglenArr.length;i++){
-      this.dietPlans = {
-        day: '1',
-        meal: '2',
-        food_id: this.oglenArr[i].food_id
+    for (let i = 0; i < this.kahvaltiArr.length; i++) {
+      if(this.kahvaltiArrServ[i]==null){
+        this.kahvaltiArrServ[i]=1
       }
-       this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
+      this.dietPlans = {
+        day: this.date,
+        meal: '1',
+        food_id: this.kahvaltiArr[i].food_id,
+        portion: this.kahvaltiArrServ[i],
+        details: this.kahvaltiArrDet[i]
+      }
+      this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
+        console.log(response);
+        // handle response
+      }, error => {
+        console.error(error);
+        // handle error
+      });
+    }
+    for (let i = 0; i < this.oglenArr.length; i++) {
+      if(this.oglenArrServ[i]==null){
+        this.oglenArrServ[i]=1
+      }
+      this.dietPlans = {
+        day: this.date,
+        meal: '2',
+        food_id: this.oglenArr[i].food_id,
+        portion: this.oglenArrServ[i],
+        details: this.oglenArrDet[i]
+
+      }
+      this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
         console.log(response);
         // handle response
       }, error => {
@@ -139,15 +183,20 @@ export class IconsComponent implements OnInit {
       });
 
     }
-    for(let i=0;i<this.aksamArr.length;i++){
-        this.dietPlans = {
-          day: '1',
-          meal: '3',
-          food_id: this.aksamArr[i].food_id
-        }
-      
-  
-       this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
+    for (let i = 0; i < this.aksamArr.length; i++) {
+      if(this.aksamArrServ[i]==null){
+        this.aksamArrServ[i]=1
+      }
+      this.dietPlans = {
+        day: this.date,
+        meal: '3',
+        food_id: this.aksamArr[i].food_id,
+        portion: this.aksamArrServ[i],
+        details: this.aksamArrDet[i]
+      }
+
+
+      this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
         console.log(response);
         // handle response
       }, error => {
@@ -156,22 +205,24 @@ export class IconsComponent implements OnInit {
       });
 
     }
-    for(let i=0;i<this.snackArr.length;i++){
-        this.dietPlans = {
-          day: '1',
-          meal: '4',
-          food_id: this.snackArr[i].food_id
-        }
-      
-  
-       this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
+    for (let i = 0; i < this.snackArr.length; i++) {
+      if(this.snackArrServ[i]==null){
+        this.snackArrServ[i]=1
+      }
+      this.dietPlans = {
+        day: this.date,
+        meal: '4',
+        food_id: this.snackArr[i].food_id,
+        portion: this.snackArrServ[i],
+        details: this.snackArrDet[i]
+      }
+      this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
         console.log(response);
         // handle response
       }, error => {
         console.error(error);
         // handle error
       });
-
     }
   }
 
@@ -222,7 +273,7 @@ export class IconsComponent implements OnInit {
   //   console.log(jsonString);
   //   return jsonString;
   // }  
-  
+
 
 
 
