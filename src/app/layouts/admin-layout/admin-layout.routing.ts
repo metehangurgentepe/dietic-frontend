@@ -11,11 +11,11 @@ import { UpgradeComponent } from '../../upgrade/upgrade.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'table-list',     component: TableListComponent },
+    { path: 'addpatient',   component: UserProfileComponent },
+    { path: 'patients',     component: TableListComponent },
     { path: 'typography',     component: TypographyComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'maps',           component: MapsComponent },
-    { path: 'notifications',  component: NotificationsComponent },
+    { path: 'dietplan',          component: IconsComponent },
+    { path: 'bmi',           component: MapsComponent },
+    { path: 'addfood',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent }
 ];

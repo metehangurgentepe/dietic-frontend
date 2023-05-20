@@ -5,7 +5,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title"> Simple Table</h4>
+          <h4 class="card-title">Patients</h4>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -63,7 +63,8 @@
                     {{ patient.about }}
                   </td>
                   <td class="text-right">
-                    <button (click)=onButtonClick(patient)>Update Patient</button>
+                    <button (click)=onButtonClick(patient) style="margin-right: 3px;">Update</button>
+                    <button (click)="showDietPlans(patient)">Diet Plan</button>
                   </td>
                 </tr>
               </tbody>

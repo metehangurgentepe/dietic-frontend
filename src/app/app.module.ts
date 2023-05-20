@@ -19,6 +19,9 @@ import { UpdatePatientComponents } from './update-patient/update.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { appointmentService } from './services/appointment.service';
+import { NoteService } from './services/notes.service';
+import { patientService } from './services/patient.service';
 
 
 
@@ -45,7 +48,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     UpdatePatientComponents
 
   ],
-  providers: [FoodService],
+  providers: [FoodService,appointmentService,NoteService,patientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

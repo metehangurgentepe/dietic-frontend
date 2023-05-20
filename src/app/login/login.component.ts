@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
           this.responseDataRegister = response;
         if(response =! null){
           sessionStorage.setItem('email', person.email);
+          
           sessionStorage.setItem('firstName', person.firstName);
           sessionStorage.setItem('lastName', person.lastName);
           console.log(this.responseDataRegister.token);
@@ -61,6 +62,7 @@ export class LoginComponent implements OnInit {
       if(response =! null){
         sessionStorage.setItem('email', person.email);
         sessionStorage.setItem('firstname', this.responseDataLogin.firstName);
+        sessionStorage.setItem('dietitianId', this.responseDataLogin.id);
         sessionStorage.setItem('lastname', this.responseDataLogin.lastName);
         sessionStorage.setItem('token', this.responseDataLogin.accessToken);
         console.log(this.responseDataLogin.dietitianId);

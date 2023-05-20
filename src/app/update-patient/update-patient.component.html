@@ -1,8 +1,7 @@
-
 <div class="panel-header panel-header-sm">
 </div>
 <div class="main-content">
-  <div class="row">
+  <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
         <div class="card-header">
@@ -14,56 +13,55 @@
               <div class="col-md-4 pr-1">
                 <div class="form-group">
                   <label>First Name</label>
-                  <input type="disabled" class="form-control" placeholder="{{patient.name}}" value="{{patient.name}}"  name="name" ngModel disabled>
+                  <input type="text" class="form-control" [ngModel]="patient.name" name="name" ngModel disabled>
                 </div>
               </div>
               <div class="col-md-4 pl-1">
                 <div class="form-group">
                   <label>Last Name</label>
-                  <input type="text" class="form-control" placeholder="{{patient.surname}}" value="{{patient.surname}}" name="surname" ngModel disabled>
+                  <input type="text" class="form-control" [ngModel]="patient.surname" name="surname" ngModel disabled>
                 </div>
               </div>
-          </div>
+            </div>
             <div class="row">
               <div class="col-md-4 pl-3">
                 <div class="form-group">
                   <label for="email">Email address</label>
-                  <input name="email" id="email" type="email" class="form-control" placeholder="{{patient.email}}" value="{{patient.email}}" name="email" ngModel disabled>
+                  <input type="email" class="form-control" [ngModel]="patient.email" name="email" ngModel disabled>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-2 pl-3">
-              <div class="form-group">
-                <label>Height</label> 
-                <input name="email" id="email" class="form-control" placeholder="{{patient.height}}" value="height" name="height" ngModel>
+                <div class="form-group">
+                  <label>Height</label>
+                  <input class="form-control" [ngModel]="patient.height" name="height" ngModel>
+                </div>
               </div>
-            </div>
-            <div class="col-md-2 pl-3">
-              <div class="form-group">
-                <label>Weight</label>
-                <input name="email" id="email" class="form-control" placeholder="{{patient.weight}}" value="weight" name="weight" ngModel>
+              <div class="col-md-2 pl-3">
+                <div class="form-group">
+                  <label>Weight</label>
+                  <input class="form-control" [ngModel]="patient.weight" name="weight" ngModel>
+                </div>
               </div>
-            </div>
-            <div class="col-md-2 pl-3">
-              <div class="form-group">
-                <label>Body Fat</label>
-                <input name="email" id="email" class="form-control" placeholder="{{patient.bodyFat}}" value="bodyFat" name="bodyFat" ngModel>
-
+              <div class="col-md-2 pl-3">
+                <div class="form-group">
+                  <label>Body Fat</label>
+                  <input class="form-control" [ngModel]="patient.bodyFat" name="bodyFat" ngModel>
+                </div>
               </div>
-            </div>
-            <div class="col-md-2 pl-3">
-              <div class="form-group">
-                <label>Age</label>
-                <input name="age" id="age" class="form-control" placeholder="{{patient.age}}" value="age" name="age" ngModel>
+              <div class="col-md-2 pl-3">
+                <div class="form-group">
+                  <label>Age</label>
+                  <input class="form-control" [ngModel]="patient.age" name="age" ngModel>
+                </div>
               </div>
-            </div>
             </div>
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
                   <label>About Me</label>
-                  <textarea rows="4" cols="80" class="form-control" placeholder="{{patient.about}}" value="about" name="about" ngModel>Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea>
+                  <textarea rows="4" cols="80" class="form-control" [ngModel]="patient.about" name="about" ngModel></textarea>
                 </div>
               </div>
             </div>
@@ -72,29 +70,4 @@
         </div>
     </div>
     </div>
-    <div class="col-md-4">
-      <div class="card card-user">
-        <div class="image">
-          <img src="../assets/img/bg5.jpg" alt="...">
-        </div>
-        <div class="card-body">
-          <div class="author">
-            <a href="#">
-              <img class="avatar border-gray" src="../assets/img/mike.jpg" alt="...">
-              <h5 class="title">Mike Andrew</h5>
-            </a>
-            <p class="description">
-              michael24
-            </p>
-          </div>
-          <p class="description text-center">
-            "Lamborghini Mercy
-            <br> Your chick she so thirsty
-            <br> I'm in that two seat Lambo"
-          </p>
-        </div>
-        <hr>
-      </div>
-    </div>
   </div>
-

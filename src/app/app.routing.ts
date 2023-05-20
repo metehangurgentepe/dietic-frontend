@@ -8,7 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { UpdatePatientComponents } from './update-patient/update.component';
 
 const routes: Routes =[
-  { path: 'new-page', component: UpdatePatientComponents },
+  { path: 'updatepatient', component: UpdatePatientComponents },
   {
     path: '',
     redirectTo: 'login',

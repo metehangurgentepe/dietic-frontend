@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { FoodService } from '../services/foods.service';
 
 @Component({
   selector: 'app-notifications',
@@ -8,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NotificationsComponent implements OnInit {
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService,private foodService:FoodService) {}
   showNotification(from, align){
 
       const color = Math.floor((Math.random() * 5) + 1);
@@ -64,6 +65,8 @@ export class NotificationsComponent implements OnInit {
       }
   }
   ngOnInit() {
+    
   }
+ // onAddFoods(food:{})
 
 }

@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
+import { appointmentService } from '../services/appointment.service';
+import { HttpClient } from '@angular/common/http';
+import { NoteService } from '../services/notes.service';
+import { DatePipe } from '@angular/common';
+import { patientService } from '../services/patient.service';
+import { PatientModel } from '../models/patient_model';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,6 +13,12 @@ import * as Chartist from 'chartist';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+//
+
+
+
+
+/////////////////////////////////////////
   public lineBigDashboardChartType;
   public gradientStroke;
   public chartColor;
@@ -57,9 +69,37 @@ export class DashboardComponent implements OnInit {
       return "rgb(" + r + ", " + g + ", " + b + ")";
     }
   }
-  constructor() { }
-
+  constructor(private appointmentService: appointmentService, private http: HttpClient,private noteService:NoteService,private patientService:patientService) { }
+  appointments:AppointmentModel[];
+  patients:PatientModel[];
+  notes:Note[];
+  formattedDate: '2023-05-20';
   ngOnInit() {
+    // const currentDate = new Date();
+    // this.formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+    
+    this.appointmentService.getAppointmentDaily(this.formattedDate).then(res => {
+      console.log(res);
+      this.appointments=res;
+    });
+    this.noteService.getNotes().then(res=>{
+      console.log(res);
+      this.notes=res;
+    });
+    this.patientService.getPatient().then(res=>{
+      this.patients=res;
+    })
+    
+    
+    
+    
+
+
+
+
+
+
+    ////////////////////////////////////////////////
     this.chartColor = "#FFFFFF";
     this.canvas = document.getElementById("bigDashboardChart");
     this.ctx = this.canvas.getContext("2d");
