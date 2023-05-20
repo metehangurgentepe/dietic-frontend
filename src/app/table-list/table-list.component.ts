@@ -36,6 +36,12 @@ export class TableListComponent implements OnInit {
     var patient1 = JSON.stringify(patient);
 
     
-    this.router.navigate(['/new-page'], { queryParams: { data: patient1 } });
+    this.router.navigate(['/updatepatient'], { queryParams: { data: patient1 } });
+  }
+  showDietPlans(patient: any) {
+    console.log(patient);
+    console.log('patient')
+    var patient1 = JSON.stringify(patient);
+    this.router.navigate(['/typography'], { queryParams: { data: patient1 } });
   }
 }
