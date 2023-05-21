@@ -5,6 +5,7 @@ import { of } from "rxjs";
 import { FoodService } from '../services/foods.service';
 import { ApiService } from '../services/api.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -13,11 +14,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./icons.component.css']
 })
 export class IconsComponent implements OnInit {
-  amount: string; // Initialize 'amount' as an empty string
-  detail: string; 
-  date: string; 
+  amounts: number[] = [];
+  details: string[] = [];
+  date: string;
   selectedOption: string;
-  options = ['Kahvaltı', 'Öğlen', 'Akşam', 'Snack'];
+  options = ['Kahvaltı', 'Öğlen', 'Akşam', 'Snack', 'Summary'];
   patientsId = [];
   searchText;
   foods = [];
@@ -50,7 +51,23 @@ export class IconsComponent implements OnInit {
   dietitianId = sessionStorage.getItem("dietitianId");
   data: any[];
   Patients: any;
+  currentDate: Date;
+  DateOnly: string
+  totalProtein: number = 0;
+  totalEnergy: number = 0;
+  totalCarbohydrate: number = 0;
+  totalFat: number = 0;
+
+  // Method to calculate the sums
+
+
   ngOnInit() {
+    this.currentDate = new Date();
+    const cValue = formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
+    console.log(cValue)
+    this.DateOnly = cValue;
+
+
     var token = sessionStorage.getItem("token");
     console.log(token);
     this.getData().subscribe(
@@ -63,7 +80,7 @@ export class IconsComponent implements OnInit {
           const value = patient.patient_id;
           const option = { label, value };
           this.patientsArray.push(option);
-          console.log(this.detail);
+
         }
       },
       error => {
@@ -71,6 +88,17 @@ export class IconsComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+  decreaseDate() {
+    const currentDate = new Date(this.DateOnly);
+    currentDate.setDate(currentDate.getDate() - 1);
+    this.DateOnly = currentDate.toISOString().split('T')[0];
+  }
+
+  increaseDate() {
+    const currentDate = new Date(this.DateOnly);
+    currentDate.setDate(currentDate.getDate() + 1);
+    this.DateOnly = currentDate.toISOString().split('T')[0];
   }
 
 
@@ -80,22 +108,12 @@ export class IconsComponent implements OnInit {
       console.log(res);
       this.foods = res['results'];
       this.meals = res;
+      this.amounts = new Array(this.meals.length).fill(1);
+      this.details = new Array(this.meals.length).fill('');
     });
   }
-  
-  getRowData(food: any,amount:number,detail:string) {
-    if(detail==null && amount==null){
-      detail='detail'
-      amount=1
-    }
-    else if(amount==null){
-      console.log('bura')
-      amount=1
-    }
-    else if(detail==null){
-      console.log('bura')
-      detail='none'
-    }
+
+  getRowData(food: any, amount: number, detail: string) {
     this.dietPlan.push(food);
     if (this.selectedOption == 'Kahvaltı') {
       this.kahvaltiArr.push(food);
@@ -118,7 +136,33 @@ export class IconsComponent implements OnInit {
       this.snackArrDet.push(detail);
       this.snackArrServ.push(amount)
     }
-  
+    else if (this.selectedOption == 'Summary') {
+      for (let i = 0; i < this.kahvaltiArr.length + this.oglenArr.length + this.aksamArr.length + this.snackArr.length; i++) {
+
+      }
+    }
+    this.calculateTotals();
+  }
+  calculateTotals() {
+    this.totalProtein = this.kahvaltiArr.reduce((sum, food, index) => sum + food.protein * this.kahvaltiArrServ[index], 0) +
+      this.oglenArr.reduce((sum, food, index) => sum + food.protein * this.oglenArrServ[index], 0) +
+      this.aksamArr.reduce((sum, food, index) => sum + food.protein * this.aksamArrServ[index], 0) +
+      this.snackArr.reduce((sum, food, index) => sum + food.protein * this.snackArrServ[index], 0);
+
+    this.totalEnergy = this.kahvaltiArr.reduce((sum, food, index) => sum + food.energy * this.kahvaltiArrServ[index], 0) +
+      this.oglenArr.reduce((sum, food, index) => sum + food.energy * this.oglenArrServ[index], 0) +
+      this.aksamArr.reduce((sum, food, index) => sum + food.energy * this.aksamArrServ[index], 0) +
+      this.snackArr.reduce((sum, food, index) => sum + food.energy * this.snackArrServ[index], 0);
+
+    this.totalCarbohydrate = this.kahvaltiArr.reduce((sum, food, index) => sum + food.carbohydrate * this.kahvaltiArrServ[index], 0) +
+      this.oglenArr.reduce((sum, food, index) => sum + food.carbohydrate * this.oglenArrServ[index], 0) +
+      this.aksamArr.reduce((sum, food, index) => sum + food.carbohydrate * this.aksamArrServ[index], 0) +
+      this.snackArr.reduce((sum, food, index) => sum + food.carbohydrate * this.snackArrServ[index], 0);
+
+    this.totalFat = this.kahvaltiArr.reduce((sum, food, index) => sum + food.fat * this.kahvaltiArrServ[index], 0) +
+      this.oglenArr.reduce((sum, food, index) => sum + food.fat * this.oglenArrServ[index], 0) +
+      this.aksamArr.reduce((sum, food, index) => sum + food.fat * this.aksamArrServ[index], 0) +
+      this.snackArr.reduce((sum, food, index) => sum + food.fat * this.snackArrServ[index], 0);
   }
   onPatientSelect(event) {
     this.selectedPatients = event.target.value;
@@ -126,6 +170,30 @@ export class IconsComponent implements OnInit {
     console.log('Selected patient:', this.selectedPatients);
     this.postUrl = 'http://localhost:8080/api/v1/dietPlans/' + this.dietitianId + '/' + this.patientId;
 
+  }
+  removeRowData(i: number) {
+    if (this.selectedOption == 'Kahvaltı') {
+      this.kahvaltiArr.splice(i, 1);
+      this.kahvaltiArrDet.splice(i, 1);
+      this.kahvaltiArrServ.splice(i, 1)
+      console.log(this.kahvaltiArrDet);
+    }
+    else if (this.selectedOption == 'Öğlen') {
+      this.oglenArr.splice(i, 1);
+      this.oglenArrDet.splice(i, 1);
+      this.oglenArrServ.splice(i, 1)
+    }
+    else if (this.selectedOption == 'Akşam') {
+      this.aksamArr.splice(i, 1);
+      this.aksamArrDet.splice(i, 1);
+      this.aksamArrServ.splice(i, 1)
+    }
+    else if (this.selectedOption == 'Snack') {
+      this.snackArr.splice(i, 1);
+      this.snackArrDet.splice(i, 1);
+      this.snackArrServ.splice(i, 1)
+    }
+    this.calculateTotals();
   }
 
   //private postUrl = 'http://localhost:8080/api/v1/dietPlans/' + this.dietitianId + '/'+this.patientId;
@@ -143,12 +211,12 @@ export class IconsComponent implements OnInit {
     details: null
   }
   postData() {
+    console.log(this.kahvaltiArrServ)
+    console.log(this.kahvaltiArr)
+    console.log(this.kahvaltiArrDet)
     for (let i = 0; i < this.kahvaltiArr.length; i++) {
-      if(this.kahvaltiArrServ[i]==null){
-        this.kahvaltiArrServ[i]=1
-      }
       this.dietPlans = {
-        day: this.date,
+        day: this.DateOnly,
         meal: '1',
         food_id: this.kahvaltiArr[i].food_id,
         portion: this.kahvaltiArrServ[i],
@@ -163,16 +231,13 @@ export class IconsComponent implements OnInit {
       });
     }
     for (let i = 0; i < this.oglenArr.length; i++) {
-      if(this.oglenArrServ[i]==null){
-        this.oglenArrServ[i]=1
-      }
+
       this.dietPlans = {
-        day: this.date,
+        day: this.DateOnly,
         meal: '2',
         food_id: this.oglenArr[i].food_id,
         portion: this.oglenArrServ[i],
         details: this.oglenArrDet[i]
-
       }
       this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
         console.log(response);
@@ -184,18 +249,14 @@ export class IconsComponent implements OnInit {
 
     }
     for (let i = 0; i < this.aksamArr.length; i++) {
-      if(this.aksamArrServ[i]==null){
-        this.aksamArrServ[i]=1
-      }
+
       this.dietPlans = {
-        day: this.date,
+        day: this.DateOnly,
         meal: '3',
         food_id: this.aksamArr[i].food_id,
         portion: this.aksamArrServ[i],
         details: this.aksamArrDet[i]
       }
-
-
       this.http.post(this.postUrl, this.dietPlans, { headers: this.headers }).subscribe(response => {
         console.log(response);
         // handle response
@@ -206,11 +267,9 @@ export class IconsComponent implements OnInit {
 
     }
     for (let i = 0; i < this.snackArr.length; i++) {
-      if(this.snackArrServ[i]==null){
-        this.snackArrServ[i]=1
-      }
+      console.log(this.snackArrServ)
       this.dietPlans = {
-        day: this.date,
+        day: this.DateOnly,
         meal: '4',
         food_id: this.snackArr[i].food_id,
         portion: this.snackArrServ[i],

@@ -32,8 +32,6 @@ export class UserProfileComponent implements OnInit {
     person.dietitianId = parseInt(DietitianId);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     person.roleName = "ROLE_PATIENT";
-    console.log("person burada");
-    console.log(person);
 
     this.http.post('http://localhost:8080/api/auth/register', JSON.stringify(person), { headers: headers }).subscribe((response) => {
       console.log(response);

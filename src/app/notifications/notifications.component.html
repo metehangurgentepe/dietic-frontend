@@ -1,50 +1,56 @@
 <div class="panel-header panel-header-sm">
 </div>
-
-<!-- <div class="col-md-8">
+<div class="main-content">
+<div class="col-12">
+  <div class="d-flex justify-content-center">
   <div class="card">
     <div class="card-header">
       <h5 class="title">Add Food</h5>
     </div>
     <div class="card-body">
       <form #addFoodForm="ngForm" (ngSubmit)="onAddFoods(addFoodForm.value)">
-        <div class="row">
+        <div class="row justify-content-center">
           <div class="col-md-4 pr-1">
             <div class="form-group">
               <label>Food Name</label>
-              <input type="text" class="form-control" placeholder="Patient First Name" value="name" name="name" ngModel>
+              <input type="text" class="form-control" placeholder="Food Name" value="name" ngModel>
             </div>
           </div>
           <div class="col-md-4 pl-1">
             <div class="form-group">
               <label>Energy</label>
-              <input type="text" class="form-control" placeholder="Last Name" value="surname" name="surname"ngModel>
+              <input type="text" class="form-control" placeholder="Energy" value="energy" ngModel>
             </div>
           </div>
       </div>
-        <div class="row">
+        <div class="row justify-content-center">
           <div class="col-md-4 pl-3">
             <div class="form-group">
               <label for="email">Protein</label>
-              <input name="email" id="email" type="email" class="form-control" placeholder="Email" value="email" name="email" ngModel>
+              <input type="text"  class="form-control" placeholder="Protein" value="protein"  ngModel>
             </div>
           </div>
           <div class="col-md-4 pl-3">
             <div class="form-group">
-              <label for="email">carbohydrate</label>
-              <input name="email" id="email" type="password" class="form-control" placeholder="Password" value="email" name="password" ngModel>
+              <label for="email">Carbohydrate</label>
+              <input type="text" class="form-control" placeholder="Carbohydrate" value="carbohydrate"  ngModel>
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row justify-content-center">
           <div class="col-md-2 pl-3">
           <div class="form-group">
             <label>Fat</label>
-            <input name="email" id="email" class="form-control" placeholder="Height" value="height" name="height" ngModel>
+            <input type="text" class="form-control" placeholder="Fat" value="Fat"  ngModel>
           </div>
         </div>
+        </div>
+        <div class="d-flex justify-content-end">
         <button>Add Food</button>
+      </div>
       </form>
     </div>
 </div>
-</div> -->
+</div>
+</div>
+</div>

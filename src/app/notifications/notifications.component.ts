@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FoodService } from '../services/foods.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-notifications',
@@ -8,8 +9,10 @@ import { FoodService } from '../services/foods.service';
   styleUrls: ['./notifications.component.css']
 })
 export class NotificationsComponent implements OnInit {
+ 
 
-  constructor(private toastr: ToastrService,private foodService:FoodService) {}
+  constructor(private toastr: ToastrService,private foodService:FoodService,private http: HttpClient) {}
+  token:string
   showNotification(from, align){
 
       const color = Math.floor((Math.random() * 5) + 1);
@@ -67,6 +70,29 @@ export class NotificationsComponent implements OnInit {
   ngOnInit() {
     
   }
- // onAddFoods(food:{})
+ onAddFoods(food:{name:string,energy:number,protein:number,carbohydrate:number,Fat:number}){
+  const postUrl='http://dietic.eu-north-1.elasticbeanstalk.com/api/v1/foods/addFood'
+  this.token = sessionStorage.getItem("token");
+  const headers = new HttpHeaders()
+    .set('content-type', 'application/json')
+    .set('Authorization', 'Bearer ' + this.token)
+    const body={
+      "description":food.name,
+      "energy":food.energy,
+      "fat":food.Fat,
+      "protein":food.protein,
+      "carbohydrate":food.carbohydrate
+    }
+    this.http.post(postUrl, body, { headers: headers }).subscribe(response => {
+      console.log(response);
+      this.toastr.success(food.name + ' has added successful!');    },
+     error => {
+      console.error(error);
+      this.toastr.warning(food.name + ' can not add!');
+    });
+
+
+
+ }
 
 }
