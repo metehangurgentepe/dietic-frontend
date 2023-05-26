@@ -22,6 +22,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { appointmentService } from './services/appointment.service';
 import { NoteService } from './services/notes.service';
 import { patientService } from './services/patient.service';
+import { UpdateDietPlan } from './update_dietPlan/update_dietPlan.component';
 
 
 
@@ -45,7 +46,8 @@ import { patientService } from './services/patient.service';
     AppComponent,
     AdminLayoutComponent,
     LoginComponent,
-    UpdatePatientComponents
+    UpdatePatientComponents,
+    UpdateDietPlan
 
   ],
   providers: [FoodService,appointmentService,NoteService,patientService],

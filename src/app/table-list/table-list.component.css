@@ -23,3 +23,6 @@ button.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
 }
+.button i {
+	font-size: 12px; /* Adjust the font size to your desired size */
+  }

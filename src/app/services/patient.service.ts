@@ -10,7 +10,7 @@ export class patientService {
   url1:string;
   
   constructor(private http:HttpClient) { 
-    this.url1 = 'http://localhost:8080/api/v1/dietitians/patients';
+    this.url1 = 'http://dietic.eu-north-1.elasticbeanstalk.com/api/v1/dietitians/patients';
   }
   
   getPatient(): Promise<any> {

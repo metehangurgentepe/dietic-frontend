@@ -1,0 +1,201 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="input-group sb-3 search-bar">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="inputGroup-sizing-default">Search Food</span>
+  </div>
+  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+    [(ngModel)]="searchText" (keyup)="getFoods($event)">
+</div>
+<div>
+  <div class="container d-flex justify-content-center">
+  <table class="my-table">
+    <thead>
+      <tr>
+        <th>Total Energy</th>
+        <th>Total Protein</th>
+        <th>Total Fat</th>
+        <th>Total Carbohydrate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <td>{{ totalEnergy.toFixed(2) }}</td>
+      <td>{{ totalProtein.toFixed(2) }}</td>
+      <td>{{ totalFat.toFixed(2) }}</td>
+      <td>{{ totalCarbohydrate.toFixed(2) }}</td>
+    </tbody>
+  </table>
+</div>
+</div>
+<div class="row d-flex justify-content-center" style="padding-top: 30px;">
+  <div class="col-3">
+    <label for="dropdownHeader" class="dropdown-label">Meal:</label>
+    <div class="dropdown-container">
+      <select class="dropdown-select" id="dropdownHeader" [(ngModel)]="selectedOption" (change)="onOptionSelected()">
+        <option disabled selected hidden>-- Select an option --</option>
+        <option *ngFor="let option of options" [value]="option">{{option}}</option>
+      </select>
+    </div>
+
+  </div>
+ 
+  
+ 
+</div>
+
+<div class="container" style="padding-top: 20px;">
+  <div class="row d-flex justify-content-center">
+    <table class="my-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Protein</th>
+          <th>Energy</th>
+          <th>Carbohydrate</th>
+          <th>Fat</th>
+          <th>Amount</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let food of meals; let i = index">
+          <td>{{ food.description }}</td>
+          <td>{{ food.protein.toFixed(2) }}</td>
+          <td>{{ food.energy.toFixed(2) }}</td>
+          <td>{{ food.carbohydrate.toFixed(2) }}</td>
+          <td>{{ food.fat.toFixed(2) }}</td>
+          <td>
+            <select [(ngModel)]="amounts[i]" class="form-control">
+              <option value="0.5">0.5</option>
+              <option value="1">1</option>
+              <option value="1.5">1.5</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <!-- Add more options as needed -->
+            </select>
+          </td>
+          <td>
+            <input [(ngModel)]="details[i]" type="text" class="form-control">
+          </td>
+          <td>
+            <button class="button-7" (click)="getRowData(food, amounts[i], details[i])">Add</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<div class="d-flex justify-content-center" style="padding-top: 30px;">
+  <table class="my-table" *ngIf="selectedOption === 'Kahvaltı'">
+    <thead>
+      <tr>
+        <th>Breakfast</th>
+        <th>Protein</th>
+        <th>Energy</th>
+        <th>Carbohydrate</th>
+        <th>Fat</th>
+        <th>Portion</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let food of breakfastData; let i = index">
+        <td>{{ food.food_name }}</td>
+        <td>{{ food.protein }}</td>
+        <td>{{ food.energy  }}</td>
+        <td>{{ food.carb }}</td>
+        <td>{{ food.fat  }}</td>
+        <td>{{ food.portion }}</td>
+        <td>{{ food.details }}</td>
+        <td><button class="button-8" (click)="removeRowData(food.plan_id)">Remove</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="d-flex justify-content-center" style="padding-top: 30px;">
+  <table class="my-table" *ngIf="selectedOption === 'Öğlen'">
+    <thead>
+      <tr>
+        <th>Lunch</th>
+        <th>Protein</th>
+        <th>Energy</th>
+        <th>Carbohydrate</th>
+        <th>Fat</th>
+        <th>Portion</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let food of lunchData; let i = index">
+        <td>{{ food.food_name }}</td>
+        <td>{{ food.protein }}</td>
+        <td>{{ food.energy  }}</td>
+        <td>{{ food.carb }}</td>
+        <td>{{ food.fat  }}</td>
+        <td>{{ food.portion }}</td>
+        <td>{{ food.details }}</td>
+        <td><button class="button-8" (click)="removeRowData(i)">Remove</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="d-flex justify-content-center" style="padding-top: 30px;">
+  <table class="my-table" *ngIf="selectedOption === 'Akşam'">
+    <thead>
+      <tr>
+        <th>Dinner</th>
+        <th>Protein</th>
+        <th>Energy</th>
+        <th>Carbohydrate</th>
+        <th>Fat</th>
+        <th>Portion</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let food of dinnerData; let i = index">
+        <td>{{ food.food_name }}</td>
+        <td>{{ food.protein }}</td>
+        <td>{{ food.energy  }}</td>
+        <td>{{ food.carb }}</td>
+        <td>{{ food.fat  }}</td>
+        <td>{{ food.portion }}</td>
+        <td>{{ food.details }}</td>
+        <td><button class="button-8" (click)="removeRowData(i)">Remove</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="d-flex justify-content-center" style="padding-top: 30px;">
+  <table class="my-table" *ngIf="selectedOption === 'Snack'">
+    <thead>
+      <tr>
+        <th>Snack</th>
+        <th>Protein</th>
+        <th>Energy</th>
+        <th>Carbohydrate</th>
+        <th>Fat</th>
+        <th>Portion</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let food of snackData; let i = index">
+        <td>{{ food.food_name }}</td>
+        <td>{{ food.protein }}</td>
+        <td>{{ food.energy  }}</td>
+        <td>{{ food.carb }}</td>
+        <td>{{ food.fat  }}</td>
+        <td>{{ food.portion }}</td>
+        <td>{{ food.details }}</td>
+        <td><button class="button-8" (click)="removeRowData(i)">Remove</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+<div style="display: flex; justify-content: flex-end;">
+  <button (click)="saveData()">Save Diet Plan</button>
+</div>

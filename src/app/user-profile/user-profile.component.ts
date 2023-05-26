@@ -33,10 +33,9 @@ export class UserProfileComponent implements OnInit {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     person.roleName = "ROLE_PATIENT";
 
-    this.http.post('http://localhost:8080/api/auth/register', JSON.stringify(person), { headers: headers }).subscribe((response) => {
+    this.http.post('http://dietic.eu-north-1.elasticbeanstalk.com/api/auth/register', JSON.stringify(person), { headers: headers }).subscribe((response) => {
       console.log(response);
       this.responseDataRegister = response;
-      
       try {
         if (response = ! null) {
           this.toastr.success(person.name + ' ' + person.surname + ' has added successful!');

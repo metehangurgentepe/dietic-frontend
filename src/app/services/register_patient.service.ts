@@ -1,4 +1,4 @@
-// this.http.post('http://localhost:8080/api/v1/auth/register',JSON.stringify(person),{headers:this.headers}).subscribe((response)=>{
+// this.http.post('http://dietic.eu-north-1.elasticbeanstalk.com/api/v1/auth/register',JSON.stringify(person),{headers:this.headers}).subscribe((response)=>{
 //     console.log(response);
 //       this.responseDataRegister = response;
 //     if(response =! null){

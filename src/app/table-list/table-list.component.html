@@ -65,6 +65,9 @@
                   <td class="text-right">
                     <button (click)=onButtonClick(patient) style="margin-right: 3px;">Update</button>
                     <button (click)="showDietPlans(patient)">Diet Plan</button>
+                    <button (click)="deletePatient(patient.patient_id)" class="button">
+                      <i class="fas fa-times-circle"></i>
+                    </button>
                   </td>
                 </tr>
               </tbody>

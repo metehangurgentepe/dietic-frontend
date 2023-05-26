@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class DietPlanService {
-  private baseUrl = 'http://localhost:8080/api/v1'; // Replace with your API base URL
+  private baseUrl = 'http://dietic.eu-north-1.elasticbeanstalk.com/api/v1'; // Replace with your API base URL
   private headers: HttpHeaders;
 
   constructor(private http: HttpClient) {

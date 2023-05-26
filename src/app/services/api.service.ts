@@ -9,7 +9,7 @@ export class ApiService {
   .set('content-type', 'application/json')
   .set('Authorization' , 'Bearer '+this.token);
   constructor(private http:HttpClient) { 
-    this.url1 = 'http://localhost:8080/api/v1/foods/search?query=';
+    this.url1 = 'http://dietic.eu-north-1.elasticbeanstalk.com/api/v1/foods/search?query=';
   }
   getFoods(query:string):Promise<any>{
     console.log(this.token);

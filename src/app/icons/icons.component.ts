@@ -168,7 +168,7 @@ export class IconsComponent implements OnInit {
     this.selectedPatients = event.target.value;
     this.patientId = this.selectedPatients;
     console.log('Selected patient:', this.selectedPatients);
-    this.postUrl = 'http://localhost:8080/api/v1/dietPlans/' + this.dietitianId + '/' + this.patientId;
+    this.postUrl = 'http://dietic.eu-north-1.elasticbeanstalk.com/api/v1/dietPlans/' + this.dietitianId + '/' + this.patientId;
 
   }
   removeRowData(i: number) {
@@ -196,7 +196,7 @@ export class IconsComponent implements OnInit {
     this.calculateTotals();
   }
 
-  //private postUrl = 'http://localhost:8080/api/v1/dietPlans/' + this.dietitianId + '/'+this.patientId;
+  //private postUrl = 'http://dietic.eu-north-1.elasticbeanstalk.com/api/v1/dietPlans/' + this.dietitianId + '/'+this.patientId;
 
   headers = new HttpHeaders()
     .set('content-type', 'application/json')
@@ -288,7 +288,7 @@ export class IconsComponent implements OnInit {
 
 
   //hastaları çekme api si
-  private apiUrl = 'http://localhost:8080/api/v1/dietitians/patients';
+  private apiUrl = 'http://dietic.eu-north-1.elasticbeanstalk.com/api/v1/dietitians/patients';
   getData() {
     return this.http.get(this.apiUrl, { headers: this.headers });
   }

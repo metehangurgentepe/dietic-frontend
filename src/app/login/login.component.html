@@ -3,8 +3,8 @@
 	<div class="form-container sign-up-container">
 		<form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm.value)">
 			<h1>Create Account</h1>
-			<input type="First name" placeholder="First Name" name="firstName" ngModel/>
-			<input type="Last name" placeholder="Last Name" name="lastName" ngModel/>
+			<input type="First name" placeholder="First Name" name="name" ngModel/>
+			<input type="Last name" placeholder="Last Name" name="surname" ngModel/>
 			<input type="email" placeholder="Email" name="email" ngModel/>
 			<input type="password" placeholder="Password" name="password" ngModel/>
 			<button>Sign Up</button>

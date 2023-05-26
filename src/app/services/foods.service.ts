@@ -11,14 +11,14 @@ export class FoodService {
   .set('content-type', 'application/json')
   .set('Authorization' , 'Bearer '+this.token);
   constructor(private http:HttpClient) { 
-    this.url1 = 'http://localhost:8080/api/v1/foods/search?query=';
+    this.url1 = 'http://dietic.eu-north-1.elasticbeanstalk.com/api/v1/foods/search?query=';
 
   }
   buscarFilme(query:string):Promise<any>{
     return this.http.get(this.url1 + query, {headers: this.headers}).toPromise();
   }
   addFoods(foodId:number,description:string,protein:number,fat:number,carbohydrate:number,energy:number):Promise<any>{
-    this.url='http://localhost:8080/api/v1/foods/add';
+    this.url='http://dietic.eu-north-1.elasticbeanstalk.com/api/v1/foods/add';
     const body ={
       "food_id": foodId,
       "description": description,

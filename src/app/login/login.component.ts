@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   responseDataRegister: any;
   responseDataLogin: any;
   
+  
   private cookie_name='';
  private all_cookies:any='';
   constructor(private http: HttpClient,private router: Router,private cookie:CookieService) { 
@@ -28,19 +29,20 @@ export class LoginComponent implements OnInit {
   configUrl = 'assets/config.json';
 
 
-  onRegister(person:{firstName:string,lastName:string,email:string,password:string}){
-    console.log(person);
+  onRegister(person:{name:string,surname:string,email:string,password:string,roleName:string}){
+    
+    person.roleName='ROLE_DIETITIAN';
     const jsonString=JSON.stringify(person);
+    
     console.log(jsonString);
     try{
-      this.http.post('http://localhost:8080/api/v1/auth/register',JSON.stringify(person),{headers:this.headers}).subscribe((response)=>{
+      this.http.post('http://dietic.eu-north-1.elasticbeanstalk.com/api/auth/register',JSON.stringify(person),{headers:this.headers}).subscribe((response)=>{
         console.log(response);
           this.responseDataRegister = response;
         if(response =! null){
           sessionStorage.setItem('email', person.email);
-          
-          sessionStorage.setItem('firstName', person.firstName);
-          sessionStorage.setItem('lastName', person.lastName);
+          sessionStorage.setItem('firstName', person.name);
+          sessionStorage.setItem('lastName', person.surname);
           console.log(this.responseDataRegister.token);
           sessionStorage.setItem('token', this.responseDataRegister.accessToken);
         this.router.navigate(['dashboard']);}
@@ -54,7 +56,7 @@ export class LoginComponent implements OnInit {
   }
   onLogin(person:{email:string,password:string}){
     console.log(person);
-    this.http.post('http://localhost:8080/api/auth/login',JSON.stringify(person),{headers:this.headers}).subscribe((response)=>{
+    this.http.post('http://dietic.eu-north-1.elasticbeanstalk.com/api/auth/login',JSON.stringify(person),{headers:this.headers}).subscribe((response)=>{
       this.responseDataLogin = response;
       console.log(response);
       console.log(this.responseDataLogin.token);
@@ -67,7 +69,13 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('token', this.responseDataLogin.accessToken);
         console.log(this.responseDataLogin.dietitianId);
         sessionStorage.setItem('dietitianId', this.responseDataLogin.id);
-        this.router.navigate(['dashboard']);
+        if(this.responseDataLogin.roleName==="ROLE_PATIENT"){
+          this.router.navigate(['patient_login']);
+        }
+        else{
+          this.router.navigate(['dashboard']);
+
+        }
       }
       else if(response==null){
         this.loginFailed = true;

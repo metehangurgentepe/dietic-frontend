@@ -74,6 +74,7 @@ export class DashboardComponent implements OnInit {
   patients:PatientModel[];
   notes:Note[];
   formattedDate: '2023-05-20';
+  appointmentByYear:number[];
   ngOnInit() {
     // const currentDate = new Date();
     // this.formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
@@ -89,8 +90,24 @@ export class DashboardComponent implements OnInit {
     this.patientService.getPatient().then(res=>{
       this.patients=res;
     })
-    
-    
+    this.appointmentService.getAppointmentYearly().then(res => {
+      const appointmentByYearList = Object.values(res).map(value => parseInt(value, 10));
+      this.appointmentByYear = appointmentByYearList;
+      console.log(appointmentByYearList);
+      console.log(this.appointmentByYear)
+      this.lineBigDashboardChartData = [
+        {
+          label: "Data",
+          pointBorderWidth: 1,
+          pointHoverRadius: 7,
+          pointHoverBorderWidth: 2,
+          pointRadius: 5,
+          fill: true,
+          borderWidth: 2,
+          data: this.appointmentByYear
+        }
+      ];
+    });
     
     
 
@@ -115,15 +132,13 @@ export class DashboardComponent implements OnInit {
     this.lineBigDashboardChartData = [
         {
           label: "Data",
-
           pointBorderWidth: 1,
           pointHoverRadius: 7,
           pointHoverBorderWidth: 2,
           pointRadius: 5,
           fill: true,
-
           borderWidth: 2,
-          data: [50, 150, 100, 190, 130, 90, 150, 160, 120, 140, 190, 95]
+          data: this.appointmentByYear
         }
       ];
       this.lineBigDashboardChartColors = [
@@ -451,5 +466,14 @@ export class DashboardComponent implements OnInit {
       }
 
     this.lineChartGradientsNumbersType = 'bar';
+  }
+  cancelAppointment(id:number){
+    this.appointmentService.cancelAppointment(id);
+  }
+  deleteNote(id:number){
+    this.noteService.deleteNote(id);
+  }
+  updateNoteStatus(id:number){
+    this.noteService.noteIsDone(id);
   }
 }

@@ -42,7 +42,7 @@ export class UpdatePatientComponents implements OnInit {
     person.name=(this.patient.name);
     person.surname=(this.patient.surname);
 
-    this.http.put('http://localhost:8080/api/v1/dietitians/patients/'+this.patient.patient_id, JSON.stringify(person), { headers: headers }).subscribe((response) => {
+    this.http.put('http://dietic.eu-north-1.elasticbeanstalk.com/api/v1/dietitians/patients/'+this.patient.patient_id, JSON.stringify(person), { headers: headers }).subscribe((response) => {
       console.log(response);
       this.responseDataRegister = response;
       try {

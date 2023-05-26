@@ -1,5 +1,22 @@
 <div class="panel-header panel-header-sm">
 </div>
+<div class="justify-content-end">
+  <div class="col-4">
+    <div class="date-input">
+      <label class="input-label">Date:</label>
+      <div class="date-input-wrapper">
+        <input type="text" placeholder="2023-05-17" class="input-field" id="amountInput" style="width: 40%;"
+          [(ngModel)]="DateOnly">
+          <button class="button-38" (click)="decreaseDate()">
+            <i class="fas fa-minus"></i>
+          </button>
+        <button class="button-38" (click)="increaseDate()">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="card">
 
   <div class="card-body">
@@ -140,3 +157,6 @@
   </div>
 
 </div>
+<div><button (click)="navigate()">
+Update
+</button></div>
