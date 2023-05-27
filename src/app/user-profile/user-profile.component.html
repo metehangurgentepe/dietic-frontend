@@ -29,15 +29,19 @@
               <div class="col-md-4 pl-3">
                 <div class="form-group">
                   <label for="email">Email address</label>
-                  <input name="email" id="email" type="email" class="form-control" placeholder="Email" value="email"
-                    name="email" ngModel>
+                  <input type="email" id="email" class="form-control" placeholder="Email" [(ngModel)]="email" required
+                    name="email">
+                  <div *ngIf="email && !validateEmail(email)" style="color: red;">Please enter a valid email address
+                  </div>
                 </div>
               </div>
               <div class="col-md-4 pl-3">
                 <div class="form-group">
-                  <label for="email">Password</label>
-                  <input name="email" id="email" type="password" class="form-control" placeholder="Password"
-                    value="email" name="password" ngModel>
+                  <label for="password">Password</label>
+                  <input type="password" id="password" class="form-control" value="password" placeholder="Password"
+                    [(ngModel)]="passwordRegister" minlength="6" required />
+                  <div *ngIf="passwordRegister?.length < 6 && passwordRegister !== ''" style="color: red;">Password must be at least 6
+                    characters long</div>
                 </div>
               </div>
             </div>
@@ -45,28 +49,27 @@
               <div class="col-md-2 pl-3">
                 <div class="form-group">
                   <label>Height</label>
-                  <input name="email" id="email" class="form-control" placeholder="Height" value="height" name="height"
-                    ngModel>
+                  <input type="number" class="form-control" placeholder="Height" value="height" name="height" ngModel>
                 </div>
               </div>
               <div class="col-md-2 pl-3">
                 <div class="form-group">
                   <label>Weight</label>
-                  <input name="email" id="email" class="form-control" placeholder="Weight" value="weight" name="weight"
+                  <input type="number" step="any" class="form-control" placeholder="Weight" value="weight" name="weight"
                     ngModel>
                 </div>
               </div>
               <div class="col-md-2 pl-3">
                 <div class="form-group">
                   <label>Body Fat</label>
-                  <input name="email" id="email" class="form-control" placeholder="Body Fat" value="bodyFat"
+                  <input type="number" step="any" class="form-control" placeholder="Body Fat" value="bodyFat"
                     name="bodyFat" ngModel>
                 </div>
               </div>
               <div class="col-md-2 pl-3">
                 <div class="form-group">
                   <label>Age</label>
-                  <input name="age" id="age" class="form-control" placeholder="Age" value="age" name="age" ngModel>
+                  <input type="number" class="form-control" placeholder="Age" value="age" name="age" ngModel>
                 </div>
               </div>
             </div>

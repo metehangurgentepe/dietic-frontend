@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { PatientModel } from '../models/patient_model';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-update-patient',
@@ -12,7 +14,7 @@ import { PatientModel } from '../models/patient_model';
 })
 export class UpdatePatientComponents implements OnInit {
   @Input() inputData: string;
-    constructor(private http: HttpClient, private route: ActivatedRoute, private cookie: CookieService, private toastr: ToastrService) {
+    constructor(private location: Location,private http: HttpClient, private route: ActivatedRoute, private cookie: CookieService, private toastr: ToastrService) {
     }
     responseDataRegister: any;
     patient:PatientModel;
@@ -47,10 +49,10 @@ export class UpdatePatientComponents implements OnInit {
       this.responseDataRegister = response;
       try {
         if (response = ! null) {
-          this.toastr.success(person.name + ' ' + person.surname + ' has added successful!');
+          this.toastr.success(person.name + ' ' + person.surname + ' was added successfully!');
         }
         else{
-          this.toastr.warning(person.name + ' ' + person.surname + ' can not add!');
+          this.toastr.warning(person.name + ' ' + person.surname + ' could not be added!');
         }
       }
       catch (err) {
@@ -59,5 +61,8 @@ export class UpdatePatientComponents implements OnInit {
       }
 });
 
+}
+updatePatient(){
+  this.location.back()
 }
 }

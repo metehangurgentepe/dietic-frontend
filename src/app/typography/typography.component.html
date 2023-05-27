@@ -7,9 +7,9 @@
       <div class="date-input-wrapper">
         <input type="text" placeholder="2023-05-17" class="input-field" id="amountInput" style="width: 40%;"
           [(ngModel)]="DateOnly">
-          <button class="button-38" (click)="decreaseDate()">
-            <i class="fas fa-minus"></i>
-          </button>
+        <button class="button-38" (click)="decreaseDate()">
+          <i class="fas fa-minus"></i>
+        </button>
         <button class="button-38" (click)="increaseDate()">
           <i class="fas fa-plus"></i>
         </button>
@@ -157,6 +157,8 @@
   </div>
 
 </div>
-<div><button (click)="navigate()">
-Update
-</button></div>
+<div class="d-flex justify-content-end" style="padding: 30px;">
+  <button (click)="navigate()">
+    Update
+  </button>
+</div>

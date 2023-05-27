@@ -54,6 +54,7 @@ export class TableListComponent implements OnInit {
         if (response === 'Patient deleted successfully') {
           // Patient item was successfully deleted
         this.getData();
+        location.reload();
         }
         else {
           // Handle other response scenarios if needed

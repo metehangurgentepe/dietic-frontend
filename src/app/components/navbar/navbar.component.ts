@@ -152,4 +152,9 @@ export class NavbarComponent implements OnInit {
       }
       return 'Dashboard';
     }
+    logOut(){
+      sessionStorage.clear();
+      //this.router.navigate(['login'], { queryParams: { data: JSON.stringify(dietPlanData) } });
+
+    }
 }

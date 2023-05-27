@@ -20,6 +20,9 @@
                 <th>
                   Email
                 </th>
+                <th>
+                  About
+                </th>
                 <th class="text-right">
                   Weight
                 </th>
@@ -27,13 +30,10 @@
                   Height
                 </th>
                 <th class="text-right">
-                  Body Fat
-                </th>
-                <th class="text-right">
                   Age
                 </th>
                 <th class="text-right">
-                  About
+                  Body Fat
                 </th>
               </thead>
               <tbody>
@@ -47,6 +47,9 @@
                   <td>
                     {{ patient.email }}
                   </td>
+                  <td>
+                    {{ patient.about }}
+                  </td>
                   <td class="text-right">
                     {{ patient.weight }}
                   </td>
@@ -59,9 +62,7 @@
                   <td class="text-right">
                     {{ patient.bodyFat }}
                   </td>
-                  <td class="text-right">
-                    {{ patient.about }}
-                  </td>
+                  
                   <td class="text-right">
                     <button (click)=onButtonClick(patient) style="margin-right: 3px;">Update</button>
                     <button (click)="showDietPlans(patient)">Diet Plan</button>
