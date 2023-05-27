@@ -3,8 +3,8 @@
 	<div class="form-container sign-up-container">
 		<form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm.value)">
 			<h1>Create Account</h1>
-			<input type="First name" placeholder="First Name" name="name" ngModel />
-			<input type="Last name" placeholder="Last Name" name="surname" ngModel />
+			<input type="First name" class="form-control" placeholder="First Name" name="name" ngModel />
+			<input type="Last name" class="form-control" placeholder="Last Name" name="surname" ngModel />
 			<input type="email" id="email" class="form-control" placeholder="Email" [(ngModel)]="emailRegister" required
 				name="email">
 			<div *ngIf="emailRegister && !validateEmail(emailRegister)" style="color: red;">Please enter a valid email address
@@ -27,7 +27,6 @@
 				minlength="6" required />
 			<div *ngIf="passwordLogin?.length < 6 && passwordLogin !== ''" style="color: red;">Password must be at least 6
 				characters long</div>
-			<a href="#">Forgot your password?</a>
 			<button>Sign In</button>
 		</form>
 	</div>
