@@ -18,7 +18,7 @@ export class IconsComponent implements OnInit {
   details: string[] = [];
   date: string;
   selectedOption: string;
-  options = ['Kahvaltı', 'Öğlen', 'Akşam', 'Snack', 'Summary'];
+  options = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
   patientsId = [];
   searchText;
   foods = [];
@@ -115,18 +115,18 @@ export class IconsComponent implements OnInit {
 
   getRowData(food: any, amount: number, detail: string) {
     this.dietPlan.push(food);
-    if (this.selectedOption == 'Kahvaltı') {
+    if (this.selectedOption == 'Breakfast') {
       this.kahvaltiArr.push(food);
       this.kahvaltiArrDet.push(detail);
       this.kahvaltiArrServ.push(amount)
       console.log(this.kahvaltiArrDet);
     }
-    else if (this.selectedOption == 'Öğlen') {
+    else if (this.selectedOption == 'Lunch') {
       this.oglenArr.push(food);
       this.oglenArrDet.push(detail);
       this.oglenArrServ.push(amount)
     }
-    else if (this.selectedOption == 'Akşam') {
+    else if (this.selectedOption == 'Dinner') {
       this.aksamArr.push(food);
       this.aksamArrDet.push(detail);
       this.aksamArrServ.push(amount)
@@ -136,11 +136,7 @@ export class IconsComponent implements OnInit {
       this.snackArrDet.push(detail);
       this.snackArrServ.push(amount)
     }
-    else if (this.selectedOption == 'Summary') {
-      for (let i = 0; i < this.kahvaltiArr.length + this.oglenArr.length + this.aksamArr.length + this.snackArr.length; i++) {
-
-      }
-    }
+  
     this.calculateTotals();
   }
   calculateTotals() {
@@ -172,18 +168,18 @@ export class IconsComponent implements OnInit {
 
   }
   removeRowData(i: number) {
-    if (this.selectedOption == 'Kahvaltı') {
+    if (this.selectedOption == 'Breakfast') {
       this.kahvaltiArr.splice(i, 1);
       this.kahvaltiArrDet.splice(i, 1);
       this.kahvaltiArrServ.splice(i, 1)
       console.log(this.kahvaltiArrDet);
     }
-    else if (this.selectedOption == 'Öğlen') {
+    else if (this.selectedOption == 'Lunch') {
       this.oglenArr.splice(i, 1);
       this.oglenArrDet.splice(i, 1);
       this.oglenArrServ.splice(i, 1)
     }
-    else if (this.selectedOption == 'Akşam') {
+    else if (this.selectedOption == 'Dinner') {
       this.aksamArr.splice(i, 1);
       this.aksamArrDet.splice(i, 1);
       this.aksamArrServ.splice(i, 1)

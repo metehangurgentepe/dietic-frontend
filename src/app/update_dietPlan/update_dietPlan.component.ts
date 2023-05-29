@@ -20,7 +20,7 @@ export class UpdateDietPlan implements OnInit {
   details: string[] = [];
   date: string;
   selectedOption: string;
-  options = ['Kahvaltı', 'Öğlen', 'Akşam', 'Snack'];
+  options = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
   patientsId = [];
   searchText;
   foods = [];
@@ -127,7 +127,7 @@ export class UpdateDietPlan implements OnInit {
     .set('Authorization', 'Bearer ' + this.token)
     .set('Access-Control-Allow-Origin', '*');
     
-    if (this.selectedOption == 'Kahvaltı') {
+    if (this.selectedOption == 'Breakfast') {
        const body={
         'food_id':food.food_id,
         'meal':1,
@@ -149,7 +149,7 @@ export class UpdateDietPlan implements OnInit {
       
       console.log(this.kahvaltiArrDet);
     }
-    else if (this.selectedOption == 'Öğlen') {
+    else if (this.selectedOption == 'Lunch') {
       const body={
         'food_id':food.food_id,
         'meal':2,
@@ -166,7 +166,7 @@ export class UpdateDietPlan implements OnInit {
         // handle error
       });
     }
-    else if (this.selectedOption == 'Akşam') {
+    else if (this.selectedOption == 'Dinner') {
       const body={
         'food_id':food.food_id,
         'meal':3,
