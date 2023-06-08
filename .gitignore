@@ -23,7 +23,7 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
+language: TypeScript
 # misc
 /.sass-cache
 /connect.lock
